@@ -9,6 +9,12 @@ set(SDL2_LIB_DIR C:/libs/SDL2/lib/x86)
 include_directories(${SDL2_INCLUDE_DIR})
 link_directories(${SDL2_LIB_DIR})
 
+set(SDL2_IMAGE_INCLUDE_DIR C:/libs/SDL2_image/include)
+set(SDL2_IMAGE_LIB_DIR C:/libs/SDL2_image/lib/x86)
+
+include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+link_directories(${SDL2_IMAGE_LIB_DIR})
+
 add_executable(Year1_CPP_Project main.cpp)
 
-target_link_libraries(${PROJECT_NAME} SDL2main SDL2)
+target_link_libraries(${PROJECT_NAME} SDL2main SDL2 SDL2_image)

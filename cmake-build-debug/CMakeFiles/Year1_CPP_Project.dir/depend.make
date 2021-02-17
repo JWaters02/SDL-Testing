@@ -49,5 +49,6 @@ CMakeFiles\Year1_CPP_Project.dir\main.cpp.obj: C:\libs\SDL2\include\SDL_version.
 CMakeFiles\Year1_CPP_Project.dir\main.cpp.obj: C:\libs\SDL2\include\SDL_video.h
 CMakeFiles\Year1_CPP_Project.dir\main.cpp.obj: C:\libs\SDL2\include\begin_code.h
 CMakeFiles\Year1_CPP_Project.dir\main.cpp.obj: C:\libs\SDL2\include\close_code.h
+CMakeFiles\Year1_CPP_Project.dir\main.cpp.obj: C:\libs\SDL2_image\include\SDL_image.h
 CMakeFiles\Year1_CPP_Project.dir\main.cpp.obj: ..\main.cpp
 

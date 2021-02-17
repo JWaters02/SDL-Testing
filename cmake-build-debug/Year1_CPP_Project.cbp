@@ -25,6 +25,7 @@
 				<Option compiler="msvc8"/>
 				<Compiler>
 					<Add directory="C:/libs/SDL2/include"/>
+					<Add directory="C:/libs/SDL2_image/include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\ATLMFC\include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include"/>
 					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
@@ -49,6 +50,7 @@
 				<Option compiler="msvc8"/>
 				<Compiler>
 					<Add directory="C:/libs/SDL2/include"/>
+					<Add directory="C:/libs/SDL2_image/include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\ATLMFC\include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include"/>
 					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>

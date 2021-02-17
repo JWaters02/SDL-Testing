@@ -1,15 +1,20 @@
 #include <iostream>
 #include <SDL.h>
+#include <SDL_image.h>
+#include <string>
+
 
 // Starts up SDL and creates the window
 bool init();
 // Loads the media
 bool loadMedia();
+// Loads individual image as texture
+SDL_Texture* loadTexture(std::string path);
 // Loads individual image
 SDL_Surface* loadSurface(std::string path);
-
 // Frees the media and shits down SDL
 void close();
+
 
 enum KeyPressSurfaces {
     KEY_PRESS_SURFACE_DEFAULT,
@@ -23,10 +28,13 @@ enum KeyPressSurfaces {
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
+SDL_Renderer* gRenderer = nullptr;
+SDL_Texture* gTexture = nullptr;
 SDL_Window* gWindow = nullptr;
 SDL_Surface* gScreenSurface = nullptr;
 SDL_Surface* gKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
 SDL_Surface* gCurrentSurface = nullptr;
+
 
 bool init() {
     // Initialization flag
@@ -39,15 +47,24 @@ bool init() {
     } else {
         // Create window
         gWindow = SDL_CreateWindow(
-                "Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                SCREEN_WIDTH, SCREEN_HEIGHT,
-                SDL_WINDOW_SHOWN);
+                "Game",
+                SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                 SCREEN_WIDTH, SCREEN_HEIGHT,
+                SDL_WINDOW_SHOWN
+        );
         if (gWindow == nullptr) {
             std::cout << "Window could not be created! SDL_Error:" << SDL_GetError() << std::endl;
             success = false;
         } else {
-            // Get window surface
-            gScreenSurface = SDL_GetWindowSurface(gWindow);
+            // Initialise PNG loading
+            int imgFlags = IMG_INIT_PNG;
+            if (!(IMG_Init(imgFlags) & imgFlags)) {
+                std::cout << "SDL_image could not initialise! SDL_Error:" << SDL_GetError() << std::endl;
+                success = false;
+            } else {
+                // Get window surface
+                gScreenSurface = SDL_GetWindowSurface(gWindow);
+            }
         }
     }
     return success;
@@ -95,13 +112,28 @@ bool loadMedia() {
     return success;
 }
 
+SDL_Texture* loadTexture(std::string path) {
+
+}
+
 SDL_Surface* loadSurface(std::string path) {
+    // The final optimised image
+    SDL_Surface* optimisedSurface = nullptr;
+
     // Load image at specified path
-    SDL_Surface* loadedSurface = SDL_LoadBMP(path.c_str());
+    SDL_Surface* loadedSurface = IMG_Load(path.c_str());
     if (loadedSurface == nullptr) {
-        std::cout << "Unable to load image" << path.c_str() << "! SDL Error: " << SDL_GetError() << std::endl;
+        std::cout << "Unable to load image" << path.c_str() << "! SDL Error: " << IMG_GetError() << std::endl;
+    } else {
+        // Convert surface to screen format
+        optimisedSurface = SDL_ConvertSurface(loadedSurface, gScreenSurface -> format, 0);
+        if (optimisedSurface == nullptr) {
+            std::cout << "Unable to optimise image" << path.c_str() << "! SDL Error: " << SDL_GetError() << std::endl;
+        }
+        // Get rid of old loaded surface
+        SDL_FreeSurface(loadedSurface);
     }
-    return loadedSurface;
+    return optimisedSurface;
 }
 
 void close() {
@@ -162,8 +194,14 @@ int main(int argc, char* args[]) {
                         }
                     }
                 }
-                // Apply the image
-                SDL_BlitSurface(gCurrentSurface, nullptr, gScreenSurface, nullptr);
+
+                // Apply the image stretched
+                SDL_Rect stretchRect;
+                stretchRect.x = 0;
+                stretchRect.y = 0;
+                stretchRect.w = SCREEN_WIDTH;
+                stretchRect.h = SCREEN_HEIGHT;
+                SDL_BlitScaled(gCurrentSurface, nullptr, gScreenSurface, &stretchRect);
 
                 // Update the surface
                 SDL_UpdateWindowSurface(gWindow);
