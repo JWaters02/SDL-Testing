@@ -34,7 +34,7 @@ bool init() {
 
     // Initialise SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        std::cout << "SDL could not initialise! SDL_Error: %s\n", SDL_GetError();
+        std::cout << "SDL could not initialise! SDL_Error:" << SDL_GetError() << std::endl;
         success = false;
     } else {
         // Create window
@@ -43,7 +43,7 @@ bool init() {
                 SCREEN_WIDTH, SCREEN_HEIGHT,
                 SDL_WINDOW_SHOWN);
         if (gWindow == nullptr) {
-            std::cout << "Window could not be created! SDL_Error: %s\n" << SDL_GetError();
+            std::cout << "Window could not be created! SDL_Error:" << SDL_GetError() << std::endl;
             success = false;
         } else {
             // Get window surface
@@ -58,7 +58,7 @@ bool loadMedia() {
     bool success = true;
 
     // Load default surface
-    gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("");
+    gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("Images/hello-devsoc.bmp");
     if(gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT] == nullptr) {
         std::cout << "Failed to load default image!\n";
         success = false;
@@ -99,7 +99,7 @@ SDL_Surface* loadSurface(std::string path) {
     // Load image at specified path
     SDL_Surface* loadedSurface = SDL_LoadBMP(path.c_str());
     if (loadedSurface == nullptr) {
-        std::cout << "unable to load image %s! SDL Error: %s\n", path.c_str(), SDL_GetError();
+        std::cout << "Unable to load image" << path.c_str() << "! SDL Error: " << SDL_GetError() << std::endl;
     }
     return loadedSurface;
 }
